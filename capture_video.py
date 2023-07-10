@@ -1,7 +1,10 @@
+import time
 import cv2
 
 # Open the video stream
 cap = cv2.VideoCapture(0)
+
+time.sleep(4)
 
 # Check if camera opened successfully
 if not cap.isOpened():
@@ -10,21 +13,22 @@ if not cap.isOpened():
 # Get video width, height
 frame_width = int(cap.get(3))
 frame_height = int(cap.get(4))
-fps = int(cap.get(5))
+# fps = int(cap.get(5))
 
-# Define the codec and create a VideoWriter object.
-out = cv2.VideoWriter('outpy01.mp4', cv2.VideoWriter_fourcc(*'mp4v'), fps, (frame_width, frame_height))
+
+# # Define the codec and create a VideoWriter object.
+# out = cv2.VideoWriter('pushup01.mp4', cv2.VideoWriter_fourcc(*'mp4v'), 15, (frame_width, frame_height))
 
 # Frame counter
 frame_counter = 0
 
 while True:
-    print(fps)
+
     ret, frame = cap.read()
 
     if ret:
         # If the number of frames is less than or equal to 150
-        if frame_counter < fps * 5:
+        if frame_counter < 15 * 5:
             # Write the frame to the output file
             out.write(frame)
 
