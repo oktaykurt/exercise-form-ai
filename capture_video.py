@@ -16,8 +16,8 @@ frame_height = int(cap.get(4))
 # fps = int(cap.get(5))
 
 
-# # Define the codec and create a VideoWriter object.
-# out = cv2.VideoWriter('pushup01.mp4', cv2.VideoWriter_fourcc(*'mp4v'), 15, (frame_width, frame_height))
+# Define the codec and create a VideoWriter object.
+out = cv2.VideoWriter('captured-videos/push-up10.mp4', cv2.VideoWriter_fourcc(*'mp4v'), 15, (frame_width, frame_height))
 
 # Frame counter
 frame_counter = 0
