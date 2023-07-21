@@ -49,6 +49,7 @@ for i in range(1, 11):
             # get the landmarks
             landmarks = results.pose_landmarks.landmark
             
+            # print(landmarks[mp_pose.PoseLandmark.LEFT_HIP.value])
             # capture relevant points
             left_hip = [landmarks[mp_pose.PoseLandmark.LEFT_HIP.value].x, landmarks[mp_pose.PoseLandmark.LEFT_HIP.value].y]
             left_knee = [landmarks[mp_pose.PoseLandmark.LEFT_KNEE.value].x, landmarks[mp_pose.PoseLandmark.LEFT_KNEE.value].y]
@@ -69,10 +70,14 @@ for i in range(1, 11):
             pose_coordinates = [frame_time, left_hip, left_knee, left_ankle, left_shoulder, left_elbow, left_wrist, right_hip, right_knee, right_ankle, right_shoulder, right_elbow, right_wrist]
             pose_coordinates_list.append(pose_coordinates)
             
-            mp_draw.draw_landmarks(flipped_image, results.pose_landmarks, mp_pose.POSE_CONNECTIONS)
+            # mp_draw.draw_landmarks(flipped_image, results.pose_landmarks, mp_pose.POSE_CONNECTIONS)
+            mp_draw.plot_landmarks(results.pose_world_landmarks, mp_pose.POSE_CONNECTIONS)
+
+            
 
             
         display_image = cv2.cvtColor(flipped_image, cv2.COLOR_RGB2BGR)
+
         cv2.imshow('MediaPipe Pose', display_image)
 
         if cv2.waitKey(1) & 0xFF == ord('q'):
@@ -90,4 +95,4 @@ for i in range(1, 11):
     IPython.display.display(pose_coordinates_df)
     print(pose_coordinates_df)
 
-    pose_coordinates_df.to_csv(f"pose-coordinates/squat_df{i}.csv")
+    # pose_coordinates_df.to_csv(f"pose-coordinates/squat_df{i}.csv")
