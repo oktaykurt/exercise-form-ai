@@ -17,6 +17,8 @@ for filename in os.listdir(folder):
             df['exercise'] = 'lunge'
         elif "squat" in filename:
             df['exercise'] = 'squat'
+        elif "push-up" in filename:
+            df['exercise'] = 'push-up'
         
         # append dataframe to list
         dfs.append(df)
