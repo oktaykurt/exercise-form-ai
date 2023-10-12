@@ -2,6 +2,9 @@
 
 This project utilizes Google's MediaPipe model to perform pose estimation on videos and classify exercise movements. The pose coordinates for various exercise movements are stored in CSV format, which are then used to train a classification model.
 
+<img width="829" alt="app_screenshot" src="https://github.com/oktaykurt/exercise-form-ai/assets/10723547/67a2e62d-f40a-40ff-bbe5-5e2da834f3c1">
+
+
 ## Repository Structure
 - `capture_video.py`: Captures video feed from the camera.
 - `combine-csv.py`: Utility script to combine multiple CSVs into a single file.
