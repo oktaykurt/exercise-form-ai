@@ -27,7 +27,7 @@ while True:
     ret, frame = cap.read()
 
     if ret:
-        # If the number of frames is less than or equal to 150
+        # If the number of frames is less than or equal to 75
         if frame_counter < 15 * 5:
             # Write the frame to the output file
             out.write(frame)

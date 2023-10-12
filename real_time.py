@@ -18,10 +18,13 @@ lunge_stage = None
 pushup_stage = None
 current_exercise = None
 label_map = {0: 'lunge', 1:'push-up',  2: 'squat'}  # Modify this to match your classes
+
+
+videopath = "captured-videos/test/squat_lunge_shuffle.mp4"
 cap = cv2.VideoCapture(0)  # Change this to 0 if you only have one camera
 
 # Model parameters
-n_features = 24
+n_features = 36
 n_time_steps = 75
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -82,18 +85,18 @@ def extract_coordinates(results):
         return []
     landmarks = results.pose_landmarks.landmark
     return [
-        [landmarks[mp.solutions.pose.PoseLandmark.LEFT_HIP.value].x, landmarks[mp.solutions.pose.PoseLandmark.LEFT_HIP.value].y],
-        [landmarks[mp.solutions.pose.PoseLandmark.LEFT_KNEE.value].x, landmarks[mp.solutions.pose.PoseLandmark.LEFT_KNEE.value].y],
-        [landmarks[mp.solutions.pose.PoseLandmark.LEFT_ANKLE.value].x, landmarks[mp.solutions.pose.PoseLandmark.LEFT_ANKLE.value].y],
-        [landmarks[mp.solutions.pose.PoseLandmark.LEFT_SHOULDER.value].x, landmarks[mp.solutions.pose.PoseLandmark.LEFT_SHOULDER.value].y],
-        [landmarks[mp.solutions.pose.PoseLandmark.LEFT_ELBOW.value].x, landmarks[mp.solutions.pose.PoseLandmark.LEFT_ELBOW.value].y],
-        [landmarks[mp.solutions.pose.PoseLandmark.LEFT_WRIST.value].x, landmarks[mp.solutions.pose.PoseLandmark.LEFT_WRIST.value].y],
-        [landmarks[mp.solutions.pose.PoseLandmark.RIGHT_HIP.value].x, landmarks[mp.solutions.pose.PoseLandmark.RIGHT_HIP.value].y],
-        [landmarks[mp.solutions.pose.PoseLandmark.RIGHT_KNEE.value].x, landmarks[mp.solutions.pose.PoseLandmark.RIGHT_KNEE.value].y],
-        [landmarks[mp.solutions.pose.PoseLandmark.RIGHT_ANKLE.value].x, landmarks[mp.solutions.pose.PoseLandmark.RIGHT_ANKLE.value].y],
-        [landmarks[mp.solutions.pose.PoseLandmark.RIGHT_SHOULDER.value].x, landmarks[mp.solutions.pose.PoseLandmark.RIGHT_SHOULDER.value].y],
-        [landmarks[mp.solutions.pose.PoseLandmark.RIGHT_ELBOW.value].x, landmarks[mp.solutions.pose.PoseLandmark.RIGHT_ELBOW.value].y],
-        [landmarks[mp.solutions.pose.PoseLandmark.RIGHT_WRIST.value].x, landmarks[mp.solutions.pose.PoseLandmark.RIGHT_WRIST.value].y],
+        [landmarks[mp.solutions.pose.PoseLandmark.LEFT_HIP.value].x, landmarks[mp.solutions.pose.PoseLandmark.LEFT_HIP.value].y, landmarks[mp.solutions.pose.PoseLandmark.LEFT_HIP.value].z],
+        [landmarks[mp.solutions.pose.PoseLandmark.LEFT_KNEE.value].x, landmarks[mp.solutions.pose.PoseLandmark.LEFT_KNEE.value].y, landmarks[mp.solutions.pose.PoseLandmark.LEFT_KNEE.value].z],
+        [landmarks[mp.solutions.pose.PoseLandmark.LEFT_ANKLE.value].x, landmarks[mp.solutions.pose.PoseLandmark.LEFT_ANKLE.value].y, landmarks[mp.solutions.pose.PoseLandmark.LEFT_ANKLE.value].z],
+        [landmarks[mp.solutions.pose.PoseLandmark.LEFT_SHOULDER.value].x, landmarks[mp.solutions.pose.PoseLandmark.LEFT_SHOULDER.value].y, landmarks[mp.solutions.pose.PoseLandmark.LEFT_SHOULDER.value].z],
+        [landmarks[mp.solutions.pose.PoseLandmark.LEFT_ELBOW.value].x, landmarks[mp.solutions.pose.PoseLandmark.LEFT_ELBOW.value].y, landmarks[mp.solutions.pose.PoseLandmark.LEFT_ELBOW.value].z],
+        [landmarks[mp.solutions.pose.PoseLandmark.LEFT_WRIST.value].x, landmarks[mp.solutions.pose.PoseLandmark.LEFT_WRIST.value].y, landmarks[mp.solutions.pose.PoseLandmark.LEFT_WRIST.value].z],
+        [landmarks[mp.solutions.pose.PoseLandmark.RIGHT_HIP.value].x, landmarks[mp.solutions.pose.PoseLandmark.RIGHT_HIP.value].y, landmarks[mp.solutions.pose.PoseLandmark.RIGHT_HIP.value].z],
+        [landmarks[mp.solutions.pose.PoseLandmark.RIGHT_KNEE.value].x, landmarks[mp.solutions.pose.PoseLandmark.RIGHT_KNEE.value].y, landmarks[mp.solutions.pose.PoseLandmark.RIGHT_KNEE.value].z],
+        [landmarks[mp.solutions.pose.PoseLandmark.RIGHT_ANKLE.value].x, landmarks[mp.solutions.pose.PoseLandmark.RIGHT_ANKLE.value].y, landmarks[mp.solutions.pose.PoseLandmark.RIGHT_ANKLE.value].z],
+        [landmarks[mp.solutions.pose.PoseLandmark.RIGHT_SHOULDER.value].x, landmarks[mp.solutions.pose.PoseLandmark.RIGHT_SHOULDER.value].y, landmarks[mp.solutions.pose.PoseLandmark.RIGHT_SHOULDER.value].z],
+        [landmarks[mp.solutions.pose.PoseLandmark.RIGHT_ELBOW.value].x, landmarks[mp.solutions.pose.PoseLandmark.RIGHT_ELBOW.value].y, landmarks[mp.solutions.pose.PoseLandmark.RIGHT_ELBOW.value].z],
+        [landmarks[mp.solutions.pose.PoseLandmark.RIGHT_WRIST.value].x, landmarks[mp.solutions.pose.PoseLandmark.RIGHT_WRIST.value].y, landmarks[mp.solutions.pose.PoseLandmark.RIGHT_WRIST.value].z],
     ]
 
 def count_reps(image, current_action, landmarks, mp_pose):
@@ -122,9 +125,9 @@ def count_reps(image, current_action, landmarks, mp_pose):
 
         # If the current action is a lunge
         elif current_action == 'push-up':
-            if (pushup_stage is None or pushup_stage == 'up') and avg_hip > 0.5:
+            if (pushup_stage is None or pushup_stage == 'up') and avg_hip > 0.6:
                 pushup_stage = 'down'
-            if pushup_stage == 'down' and avg_hip < 0.4:
+            if pushup_stage == 'down' and avg_shoulder < 0.4:
                 pushup_stage = 'up'
                 push_up_counter += 1
 
